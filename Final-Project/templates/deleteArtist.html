@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>Delete {{artist.name}}</title>
+	</head>
+	<body>
+		<h1>Are you sure you want to delete {{artist.name}}?</h1>
+		<form action={{ url_for('deleteArtist', artist_id=artist.id) }} , method='post'>
+			<input type='submit' value='Yes'>
+		</form>
+		<form action={{ url_for('allArtists') }}>
+				<input type='submit' value='No'>
+		</form>
+	</body>
+</html>

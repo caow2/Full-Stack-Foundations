@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>Edit {{artist.name}}</title>
+	</head>
+	<body>
+		<h1>Changing the name of artist {{artist.name}}</h1>
+
+		<form action={{ url_for('editArtist', artist_id=artist.id )}} method='POST'>
+			New name &nbsp<input type="text" name="newname" placeholder='{{artist.name}}'>
+			<br>
+			<input type="submit" value="Submit">
+		</form>
+	</body>
+</html>

@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<title>New Artist</title>
+	</head>
+	<body>
+		<h1>Enter name for new artist</h1>
+		<form action={{ url_for('newArtist') }} method='POST'>
+			<input type='text' name='artist_name' placeholder='i.e. Thom Yorke'><br>
+			<input type='submit' value='Submit'>
+		</form>
+	</body>
+</html>

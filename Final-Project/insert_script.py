@@ -13,6 +13,7 @@ session = DBSession()
 def commit(artist, *songs):
 	session.add(artist)
 	for song in songs:
+		song.artist=artist
 		session.add(song)
 	session.commit()
 

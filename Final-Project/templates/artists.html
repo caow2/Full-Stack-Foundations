@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>Home Page</title>
+	</head>
+	<body>
+		<h1>List of All Artists</h1>
+
+		{% for artist in artists %}
+		<p>
+			<a href= {{ url_for('artistSongs', artist_id=artist.id ) }}>{{artist.name}}</a>
+		</p>
+		{% endfor %}
+	</body>
+</html>

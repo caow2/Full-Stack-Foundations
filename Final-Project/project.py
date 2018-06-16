@@ -58,6 +58,27 @@ def deleteArtist(artist_id):
 		session.commit()
 		return redirect(url_for('allArtists'))
 
+@app.route('/artists/<int:artist_id>/songs/<int:song_id>/edit/', methods=['GET','POST'])
+def editSong(artist_id, song_id):
+	song = session.query(Song).filter_by(id=song_id).one() #utilize song's artist reference
+	if request.method == 'GET':
+		return render_template('editSong.html', artist=song.artist, song=song)
+	elif request.method == 'POST':
+		song.name = request.form.get('song_name')
+		session.add(song)
+		session.commit()
+		return redirect(url_for('artistSongs', artist_id=song.artist.id))
+
+@app.route('/artists/<int:artist_id>/songs/<int:song_id>/delete/', methods=['GET', 'POST'])
+def deleteSong(artist_id, song_id):
+	song = session.query(Song).filter_by(id=song_id).one()	#better to utilize parameter artist_id - song.artist.id is invalid after it has been deleted from DB
+	if request.method == 'GET':
+		return render_template('deleteSong.html', artist=song.artist, song=song)
+	elif request.method == 'POST':
+		session.delete(song)
+		session.commit()
+		return redirect(url_for('artistSongs', artist_id=artist_id)) 
+
 if __name__ == '__main__':
 	app.debug = True
 	app.run(host='0.0.0.0', port=5000)

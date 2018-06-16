@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Edit Song - {{song.name}}</title>
+	</head>
+	<body>
+		<h1>{{song.name}} by {{artist.name}}</h1>
+		<form action={{ url_for('editSong', artist_id=artist.id, song_id=song.id ) }} method='POST'>
+			New song name <br><input type='text' name='song_name' placeholder='{{song.name}}'><br>
+			Song Duration - {{song.length}} <br>
+			<input type='submit' value='Submit'>
+		</form>
+	</body>
+</html>

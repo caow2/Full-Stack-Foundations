@@ -1,0 +1,11 @@
+<html>
+	<head>
+		<title>All songs</title>
+	</head>
+	<body>
+		<h1>All available songs</h1>
+		{% for song in songs %}
+		<p><strong>{{song.name}}</strong> by {{song.artist.name}} - Duration: {{song.length}}</p>
+		{% endfor %}
+	</body>
+</html>

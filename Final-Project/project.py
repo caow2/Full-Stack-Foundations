@@ -14,7 +14,7 @@ session = DBSession()
 @app.route('/')
 @app.route('/artists/')
 def allArtists():
-	artists = session.query(Artist).all()
+	artists = session.query(Artist).order_by(Artist.name).all()
 	if artists == []:
 		return "No artist data was available"
 	return render_template('artists.html', artists=artists)
@@ -22,7 +22,7 @@ def allArtists():
 @app.route('/artists/<int:artist_id>/songs/')
 def artistSongs(artist_id):
 	artist = session.query(Artist).filter_by(id=artist_id).one()
-	songs = session.query(Song).filter_by(artist_id=artist_id)
+	songs = session.query(Song).filter_by(artist_id=artist_id).order_by(Song.name)
 	if songs == []:
 		return "No songs were available for artist %s" % artist.name
 	return render_template('songs.html', artist=artist, songs=songs)
@@ -89,6 +89,11 @@ def newSong(artist_id):
 		session.add(newSong)
 		session.commit()
 		return redirect(url_for('artistSongs', artist_id=artist_id))
+
+@app.route('/songs/all/')
+def allSongs():
+	songs = session.query(Song).order_by(Song.name).all()
+	return render_template('allSongs.html', songs=songs)
 
 if __name__ == '__main__':
 	app.debug = True

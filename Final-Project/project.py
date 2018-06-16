@@ -14,7 +14,7 @@ session = DBSession()
 @app.route('/')
 @app.route('/artists/')
 def allArtists():
-	artists = session.query(Artist).all()
+	artists = session.query(Artist).order_by(Artist.name).all()
 	if artists == []:
 		return "No artist data was available"
 	return render_template('artists.html', artists=artists)
@@ -22,7 +22,7 @@ def allArtists():
 @app.route('/artists/<int:artist_id>/songs/')
 def artistSongs(artist_id):
 	artist = session.query(Artist).filter_by(id=artist_id).one()
-	songs = session.query(Song).filter_by(artist_id=artist_id)
+	songs = session.query(Song).filter_by(artist_id=artist_id).order_by(Song.name)
 	if songs == []:
 		return "No songs were available for artist %s" % artist.name
 	return render_template('songs.html', artist=artist, songs=songs)
@@ -57,6 +57,43 @@ def deleteArtist(artist_id):
 		session.delete(artist)
 		session.commit()
 		return redirect(url_for('allArtists'))
+
+@app.route('/artists/<int:artist_id>/songs/<int:song_id>/edit/', methods=['GET','POST'])
+def editSong(artist_id, song_id):
+	song = session.query(Song).filter_by(id=song_id).one() #utilize song's artist reference
+	if request.method == 'GET':
+		return render_template('editSong.html', artist=song.artist, song=song)
+	elif request.method == 'POST':
+		song.name = request.form.get('song_name')
+		session.add(song)
+		session.commit()
+		return redirect(url_for('artistSongs', artist_id=song.artist.id))
+
+@app.route('/artists/<int:artist_id>/songs/<int:song_id>/delete/', methods=['GET', 'POST'])
+def deleteSong(artist_id, song_id):
+	song = session.query(Song).filter_by(id=song_id).one()	#better to utilize parameter artist_id - song.artist.id is invalid after it has been deleted from DB
+	if request.method == 'GET':
+		return render_template('deleteSong.html', artist=song.artist, song=song)
+	elif request.method == 'POST':
+		session.delete(song)
+		session.commit()
+		return redirect(url_for('artistSongs', artist_id=artist_id)) 
+
+@app.route('/artist/<int:artist_id>/songs/new/', methods=['GET', 'POST'])
+def newSong(artist_id):
+	artist = session.query(Artist).filter_by(id=artist_id).one()
+	if request.method == 'GET':
+		return render_template('newSong.html', artist=artist)
+	elif request.method == 'POST':
+		newSong = Song(name=request.form.get('song_name'), length=request.form.get('song_length'), artist=artist)
+		session.add(newSong)
+		session.commit()
+		return redirect(url_for('artistSongs', artist_id=artist_id))
+
+@app.route('/songs/all/')
+def allSongs():
+	songs = session.query(Song).order_by(Song.name).all()
+	return render_template('allSongs.html', songs=songs)
 
 if __name__ == '__main__':
 	app.debug = True

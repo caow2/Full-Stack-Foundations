@@ -9,9 +9,13 @@
 			<li>
 				<p>
 					<strong>{{song.name}}</strong>&nbsp&nbsp - &nbsp&nbsp length: <strong>{{song.length}}</strong>
+					<br>
+					<a href={{ url_for('editSong', artist_id=artist.id, song_id=song.id )}}>Edit</a> | 
+					<a href={{ url_for('deleteSong', artist_id=artist.id, song_id=song.id )}}>Delete</a>
 				<p>
 			</li>
 		{% endfor %}
 		</ul>
+		<p><a href={{ url_for('newSong', artist_id=artist.id )}}>Add a new song for {{artist.name}}</a></p>
 	</body>
 </html>

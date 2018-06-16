@@ -1,7 +1,7 @@
 import sys
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy import create_engine
 
 # SQLite Database setup for the final project and SQLAlchemy
@@ -27,8 +27,8 @@ class Song(Base):
 	name = Column(String(80), nullable=False)
 	length = Column(String(80), nullable=True)
 
-	artist_id = Column(Integer, ForeignKey('artist.id'))
-	artist = relationship(Artist)
+	artist_id = Column(Integer, ForeignKey('artist.id', ondelete='CASCADE'))
+	artist = relationship('Artist', backref=backref(__tablename__, cascade='all,delete'))
 
 engine = create_engine('sqlite:///artistsong.db')
 Base.metadata.create_all(engine)

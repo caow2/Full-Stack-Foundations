@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>New Song</title>
+	</head>
+	<body>
+		<h1>Add new song for {{artist.name}}</h1>
+		<form action={{ url_for('newSong', artist_id=artist.id )}} method='POST'>
+			Song name<input type='text' name='song_name'>
+			Duration <input type='text' name='song_length'>
+			<br>
+			<input type='submit' value='Submit'>
+		</form>
+	</body>
+</html>

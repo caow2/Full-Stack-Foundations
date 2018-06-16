@@ -16,5 +16,6 @@
 			</li>
 		{% endfor %}
 		</ul>
+		<p><a href={{ url_for('newSong', artist_id=artist.id )}}>Add a new song for {{artist.name}}</a></p>
 	</body>
 </html>

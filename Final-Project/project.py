@@ -79,6 +79,17 @@ def deleteSong(artist_id, song_id):
 		session.commit()
 		return redirect(url_for('artistSongs', artist_id=artist_id)) 
 
+@app.route('/artist/<int:artist_id>/songs/new/', methods=['GET', 'POST'])
+def newSong(artist_id):
+	artist = session.query(Artist).filter_by(id=artist_id).one()
+	if request.method == 'GET':
+		return render_template('newSong.html', artist=artist)
+	elif request.method == 'POST':
+		newSong = Song(name=request.form.get('song_name'), length=request.form.get('song_length'), artist=artist)
+		session.add(newSong)
+		session.commit()
+		return redirect(url_for('artistSongs', artist_id=artist_id))
+
 if __name__ == '__main__':
 	app.debug = True
 	app.run(host='0.0.0.0', port=5000)

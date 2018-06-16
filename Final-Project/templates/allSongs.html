@@ -7,5 +7,6 @@
 		{% for song in songs %}
 		<p><strong>{{song.name}}</strong> by {{song.artist.name}} - Duration: {{song.length}}</p>
 		{% endfor %}
+		<a href= {{ url_for('allArtists')}}>Return to previous page</a>
 	</body>
 </html>

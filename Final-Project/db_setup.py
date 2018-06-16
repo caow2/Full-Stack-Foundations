@@ -1,9 +1,9 @@
 import sys
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship, backref, sessionmaker
 from sqlalchemy import create_engine
-
+from flask import jsonify
 # SQLite Database setup for the final project and SQLAlchemy
 
 Base = declarative_base()
@@ -30,5 +30,18 @@ class Song(Base):
 	artist_id = Column(Integer, ForeignKey('artist.id', ondelete='CASCADE'))
 	artist = relationship('Artist', backref=backref(__tablename__, cascade='all,delete'))
 
+	@property
+	def serialize(self):
+		return {
+			'id': self.id,
+			'name': self.name,
+			'length': self.length
+		}
+
 engine = create_engine('sqlite:///artistsong.db')
 Base.metadata.create_all(engine)
+
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()

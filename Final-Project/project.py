@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Artist, Song
@@ -94,6 +94,12 @@ def newSong(artist_id):
 def allSongs():
 	songs = session.query(Song).order_by(Song.name).all()
 	return render_template('allSongs.html', songs=songs)
+
+@app.route('/artists/<int:artist_id>/JSON/')
+def artistJSON(artist_id):
+	artist = session.query(Artist).filter_by(id=artist_id).one()
+	songs = session.query(Song).filter_by(artist_id=artist.id)
+	return jsonify(Name=artist.name, Songs=[song.serialize for song in songs])
 
 if __name__ == '__main__':
 	app.debug = True

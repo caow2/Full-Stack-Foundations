@@ -10,5 +10,6 @@
 			Song Duration - {{song.length}} <br>
 			<input type='submit' value='Submit'>
 		</form>
+		<a href= {{ url_for('artistSongs', artist_id=artist.id )}}>Return to previous page</a>
 	</body>
 </html>

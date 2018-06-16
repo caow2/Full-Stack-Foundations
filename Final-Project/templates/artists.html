@@ -10,7 +10,8 @@
 			<a href= {{ url_for('artistSongs', artist_id=artist.id ) }}>{{artist.name}}</a>
 			<br>
 			<a href= {{ url_for('editArtist', artist_id=artist.id ) }}>Edit</a> | 
-			<a href= {{ url_for('deleteArtist', artist_id=artist.id ) }}>Delete</a>
+			<a href= {{ url_for('deleteArtist', artist_id=artist.id ) }}>Delete</a> |
+			<a href= {{ url_for('artistJSON', artist_id=artist.id )}}>JSON</a>
 		</p>
 		{% endfor %}
 
